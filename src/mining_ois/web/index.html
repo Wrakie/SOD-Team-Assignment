@@ -12,8 +12,10 @@
       --paper-2: #f5f0e6;
       --ink: #1f1f1b;
       --ink-soft: #555247;
-      --brand: #0f7668;
-      --brand-2: #c8742d;
+      --brand: #c7832b;
+      --brand-2: #8a4f13;
+      --brand-soft: #f3debf;
+      --accent-cool: #2f6b6e;
       --line: #d8cfbf;
       --danger: #a3311f;
       --ok: #17634a;
@@ -28,23 +30,153 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: "Chakra Petch", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at 0% 0%, rgba(15, 118, 104, 0.19) 0%, transparent 28%),
-        radial-gradient(circle at 100% 0%, rgba(200, 116, 45, 0.22) 0%, transparent 32%),
+        radial-gradient(circle at 0% 0%, rgba(199, 131, 43, 0.22) 0%, transparent 30%),
+        radial-gradient(circle at 100% 0%, rgba(138, 79, 19, 0.2) 0%, transparent 34%),
         linear-gradient(180deg, #f9f5eb 0%, #efe8db 100%);
       min-height: 100vh;
+    }
+
+    .global-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(10px);
+      background: rgba(249, 245, 235, 0.88);
+      border-bottom: 1px solid #d7ccb9;
+      box-shadow: 0 6px 18px rgba(33, 27, 16, 0.08);
+    }
+
+    .header-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px clamp(12px, 2.4vw, 24px);
+      display: grid;
+      gap: 10px;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: auto;
+      min-width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 16px rgba(33, 27, 16, 0.14);
+      flex: 0 0 auto;
+      overflow: hidden;
+      padding: 4px 8px;
+    }
+
+    .brand-logo img {
+      width: auto;
+      height: 100%;
+      max-width: 180px;
+      object-fit: contain;
+    }
+
+    .brand-meta h1 {
+      font-size: clamp(0.98rem, 2vw, 1.15rem);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .brand-meta p {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.74rem;
+      color: #6f6658;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 2px;
+    }
+
+    .header-tags {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .tag {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.74rem;
+      border: 1px solid #cdbfa7;
+      color: #564f41;
+      background: #fff9ed;
+      padding: 4px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .tag.online {
+      color: #7c460f;
+      border-color: #d8b37f;
+      background: #fff2df;
+    }
+
+    .main-nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .main-nav a {
+      text-decoration: none;
+      color: #3f3a2f;
+      border: 1px solid #d8ccba;
+      background: #fff9ee;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.2s ease;
+    }
+
+    .main-nav a:hover {
+      color: #7d4a11;
+      border-color: #dab987;
+      background: #fff2dd;
     }
 
     .shell {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 24px;
+      padding: clamp(12px, 2.4vw, 24px);
       display: grid;
-      gap: 20px;
+      gap: 26px;
       animation: fadeIn 0.6s ease;
+    }
+
+    #dashboard {
+      display: grid;
+      gap: 22px;
     }
 
     @keyframes fadeIn {
@@ -54,10 +186,10 @@
 
     .hero {
       background:
-        linear-gradient(130deg, #0f5f55 0%, #0f6f66 48%, #2c7f74 100%);
+        linear-gradient(130deg, #9b5f1e 0%, #c7832b 48%, #e0a04d 100%);
       color: #f7fff8;
       border-radius: var(--radius-lg);
-      padding: 28px 28px 24px;
+      padding: clamp(16px, 3vw, 28px) clamp(16px, 3vw, 28px) clamp(14px, 2.6vw, 24px);
       box-shadow: var(--shadow);
       position: relative;
       overflow: hidden;
@@ -105,8 +237,8 @@
     .auth-intro {
       display: grid;
       gap: 10px;
-      background: rgba(15, 118, 104, 0.07);
-      border: 1px solid rgba(15, 118, 104, 0.2);
+      background: rgba(199, 131, 43, 0.1);
+      border: 1px solid rgba(199, 131, 43, 0.35);
       border-radius: 12px;
       padding: 14px;
     }
@@ -115,7 +247,7 @@
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.78rem;
       text-transform: uppercase;
-      color: #0f6c60;
+      color: #8a4f13;
       letter-spacing: 0.08em;
     }
 
@@ -191,7 +323,7 @@
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 14px;
+      gap: 18px;
     }
 
     .card {
@@ -212,7 +344,7 @@
       left: 0;
       width: 100%;
       height: 4px;
-      background: linear-gradient(90deg, #0f7668, #c8742d);
+      background: linear-gradient(90deg, var(--brand), var(--brand-2));
     }
 
     .card:hover {
@@ -229,7 +361,7 @@
     }
 
     .card-value {
-      font-size: 1.9rem;
+      font-size: clamp(1.5rem, 4vw, 1.9rem);
       font-weight: 700;
       line-height: 1;
     }
@@ -237,7 +369,7 @@
     .grid {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
-      gap: 16px;
+      gap: 20px;
     }
 
     .panel {
@@ -254,6 +386,15 @@
       color: #2f3d32;
       letter-spacing: 0.03em;
       text-transform: uppercase;
+    }
+
+    .charts-grid {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+
+    .chart-wrap {
+      height: 260px;
+      position: relative;
     }
 
     .table-wrap {
@@ -301,29 +442,108 @@
     .sev-medium, .pri-medium { background: #a87a19; }
     .sev-high, .pri-high { background: #cc5d1b; }
     .sev-critical, .pri-critical { background: #a12f1e; }
+    .stock-ok { background: #2f8f5b; }
+    .stock-low { background: #a12f1e; }
 
     .forms {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
+      gap: 20px;
+    }
+
+    .entry-intro {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #dcc9a9;
+      background: linear-gradient(145deg, #fff7ea 0%, #f8ecd9 100%);
+    }
+
+    .entry-kicker {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #8a4f13;
+    }
+
+    .entry-help {
+      font-size: 0.88rem;
+      color: #5f5a4f;
+      line-height: 1.5;
+    }
+
+    .entry-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .entry-tag {
+      border: 1px solid #d9c09d;
+      border-radius: 999px;
+      background: #fff9ef;
+      color: #7d4a11;
+      font-size: 0.74rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 8px;
     }
 
     form {
       display: grid;
-      gap: 8px;
-      background: #fffdf8;
-      border: 1px solid #dcd1be;
+      gap: 10px;
+      background: linear-gradient(165deg, #fffdf8 0%, #f8eee0 100%);
+      border: 1px solid #d6c4a8;
       border-radius: var(--radius-md);
-      padding: 14px;
+      padding: 15px;
       align-content: start;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 10px 20px rgba(46, 34, 18, 0.06);
     }
 
-    form h3 {
+    .form-head {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      align-items: start;
+      border-bottom: 1px dashed #dac6a8;
+      padding-bottom: 8px;
+      margin-bottom: 2px;
+    }
+
+    .form-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #d89843 0%, #a66118 100%);
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .form-title {
       text-transform: uppercase;
       letter-spacing: 0.08em;
       font-size: 0.88rem;
-      color: #0d5e54;
+      color: #7b4810;
+      margin-bottom: 2px;
+    }
+
+    .form-desc {
+      font-size: 0.78rem;
+      color: #6a665c;
+      line-height: 1.4;
+    }
+
+    .form-grid-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
     label {
@@ -343,9 +563,13 @@
       background: white;
     }
 
+    canvas {
+      max-width: 100%;
+    }
+
     input:focus, select:focus, textarea:focus {
-      outline: 2px solid rgba(15, 118, 104, 0.25);
-      border-color: #0f7668;
+      outline: 2px solid rgba(199, 131, 43, 0.3);
+      border-color: var(--brand);
     }
 
     button {
@@ -378,6 +602,16 @@
       text-align: right;
     }
 
+    @media (max-width: 1200px) {
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-wrap {
+        height: 240px;
+      }
+    }
+
     @media (max-width: 980px) {
       .auth-grid {
         grid-template-columns: 1fr;
@@ -400,10 +634,169 @@
         width: 100%;
         justify-content: space-between;
       }
+
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #dashboard {
+        gap: 18px;
+      }
+
+      .chart-wrap {
+        height: 220px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .forms {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid-two {
+        grid-template-columns: 1fr;
+      }
+
+      .panel,
+      .card,
+      .auth-card,
+      form {
+        padding: 12px;
+      }
+
+      .hero h1 {
+        font-size: clamp(1.2rem, 5.8vw, 1.5rem);
+      }
+
+      .hero p,
+      .auth-card p,
+      .auth-card li,
+      th,
+      td {
+        font-size: 0.86rem;
+      }
+
+      .chart-wrap {
+        height: 200px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        gap: 10px;
+      }
+
+      .user-pill {
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 14px;
+      }
+
+      .logout-btn {
+        width: 100%;
+      }
+
+      .table-wrap {
+        max-height: 220px;
+      }
+
+      table {
+        min-width: 520px;
+      }
+
+      .panel h2 {
+        font-size: 0.92rem;
+      }
+
+      .brand-logo {
+        height: 42px;
+        min-width: 42px;
+        padding: 3px 6px;
+      }
+
+      .brand-logo img {
+        max-width: 130px;
+      }
+
+      .chart-wrap {
+        height: 190px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .shell {
+        gap: 14px;
+      }
+
+      #dashboard {
+        gap: 14px;
+      }
+
+      .hero::after {
+        display: none;
+      }
+
+      .card-value {
+        font-size: 1.35rem;
+      }
+
+      label {
+        font-size: 0.74rem;
+      }
+
+      input, select, textarea, button {
+        font-size: 0.88rem;
+      }
+
+      .brand-logo {
+        height: 38px;
+      }
+
+      .brand-logo img {
+        max-width: 108px;
+      }
     }
   </style>
 </head>
 <body>
+  <header class="global-header">
+    <div class="header-shell">
+      <div class="header-top">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true">
+            <img src="/ui/First_Quantum_Minerals_New_Logo.svg.png" alt="First Quantum Minerals logo">
+          </div>
+          <div class="brand-meta">
+            <h1>First Quantum Minerals</h1>
+            <p>Operational Information System</p>
+          </div>
+        </div>
+        <div class="header-tags">
+          <span class="tag online">System Online</span>
+          <span class="tag">Prototype</span>
+        </div>
+      </div>
+      <nav class="main-nav" aria-label="Primary">
+        <a class="login-only" href="#auth-card">Login</a>
+        <a class="auth-only hidden" href="#dashboard-top">Overview</a>
+        <a class="auth-only hidden" href="#kpi-section">KPI</a>
+        <a class="auth-only hidden" href="#charts-section">Charts</a>
+        <a class="auth-only hidden" href="#maintenance-section">Maintenance</a>
+        <a class="auth-only hidden" href="#incidents-section">Incidents</a>
+        <a class="auth-only hidden" href="#inventory-section">Inventory</a>
+        <a class="auth-only hidden" href="#entry-section">Data Entry</a>
+      </nav>
+    </div>
+  </header>
+
   <main class="shell">
     <section class="auth-card" id="auth-card">
       <div class="auth-grid">
@@ -432,7 +825,7 @@
     </section>
 
     <div id="dashboard" class="hidden">
-      <section class="hero">
+      <section class="hero" id="dashboard-top">
         <div class="topbar">
           <div>
             <h1>Mining Operations Command Center</h1>
@@ -446,7 +839,7 @@
         <div class="meta" id="meta">Loading latest shift snapshot...</div>
       </section>
 
-      <section class="cards">
+      <section class="cards" id="kpi-section">
         <article class="card">
           <div class="card-label">Open Work Orders</div>
           <div class="card-value" id="kpi-work-orders">0</div>
@@ -465,8 +858,29 @@
         </article>
       </section>
 
-      <section class="grid">
+      <section class="grid charts-grid" id="charts-section">
         <article class="panel">
+          <h2>Production Trend (Recent Logs)</h2>
+          <div class="chart-wrap">
+            <canvas id="production-chart"></canvas>
+          </div>
+        </article>
+        <article class="panel">
+          <h2>Incident Severity Distribution</h2>
+          <div class="chart-wrap">
+            <canvas id="incidents-chart"></canvas>
+          </div>
+        </article>
+        <article class="panel">
+          <h2>Inventory by Site (Current Stock)</h2>
+          <div class="chart-wrap">
+            <canvas id="inventory-chart"></canvas>
+          </div>
+        </article>
+      </section>
+
+      <section class="grid">
+        <article class="panel" id="maintenance-section">
           <h2>Open Maintenance Work Orders</h2>
           <div class="table-wrap">
             <table>
@@ -478,7 +892,7 @@
           </div>
         </article>
 
-        <article class="panel">
+        <article class="panel" id="incidents-section">
           <h2>Safety Incidents (Open/Investigating)</h2>
           <div class="table-wrap">
             <table>
@@ -491,7 +905,7 @@
         </article>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="inventory-section">
         <h2>Low Stock Watchlist</h2>
         <div class="table-wrap">
           <table>
@@ -503,19 +917,52 @@
         </div>
       </section>
 
+      <section class="panel" id="entry-section">
+        <h2>Full Inventory Register</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>SKU</th><th>Item</th><th>Site</th><th>Unit</th><th>Current</th><th>Reorder</th><th>Status</th></tr>
+            </thead>
+            <tbody id="inventory-body"></tbody>
+          </table>
+        </div>
+      </section>
+
       <section class="panel">
         <h2>Operational Data Entry</h2>
+        <div class="entry-intro">
+          <div class="entry-kicker">Field Operations Console</div>
+          <div class="entry-help">Capture shift-level transactions quickly. Each form validates data before submission and updates dashboard blocks in real time.</div>
+          <div class="entry-tags">
+            <span class="entry-tag">Live Sync</span>
+            <span class="entry-tag">Role Controlled</span>
+            <span class="entry-tag">Audit Ready</span>
+          </div>
+        </div>
         <div class="forms">
           <form id="form-production" data-roles="Manager">
-            <h3>Record Production</h3>
+            <div class="form-head">
+              <div class="form-icon">P</div>
+              <div>
+                <div class="form-title">Record Production</div>
+                <div class="form-desc">Log processed tonnes and downtime for the current shift.</div>
+              </div>
+            </div>
             <label for="production-site">Site</label>
             <select id="production-site" required></select>
-            <label for="production-date">Shift Date</label>
-            <input id="production-date" type="date" required>
+            <div class="form-grid-two">
+              <div>
+                <label for="production-date">Shift Date</label>
+                <input id="production-date" type="date" required>
+              </div>
+              <div>
+                <label for="production-downtime">Downtime (minutes)</label>
+                <input id="production-downtime" type="number" min="0" required>
+              </div>
+            </div>
             <label for="production-tonnes">Tonnes Processed</label>
             <input id="production-tonnes" type="number" step="0.01" min="0" required>
-            <label for="production-downtime">Downtime (minutes)</label>
-            <input id="production-downtime" type="number" min="0" required>
             <label for="production-notes">Notes</label>
             <textarea id="production-notes" rows="2"></textarea>
             <button type="submit">Save Production Log</button>
@@ -523,57 +970,93 @@
           </form>
 
           <form id="form-work-order" data-roles="Manager">
-            <h3>Create Work Order</h3>
+            <div class="form-head">
+              <div class="form-icon">M</div>
+              <div>
+                <div class="form-title">Create Work Order</div>
+                <div class="form-desc">Register maintenance work and assign priority.</div>
+              </div>
+            </div>
             <label for="wo-equipment">Equipment</label>
             <select id="wo-equipment" required></select>
             <label for="wo-title">Title</label>
             <input id="wo-title" required>
-            <label for="wo-priority">Priority</label>
-            <select id="wo-priority" required>
-              <option>LOW</option>
-              <option>MEDIUM</option>
-              <option>HIGH</option>
-              <option>CRITICAL</option>
-            </select>
-            <label for="wo-due">Due Date</label>
-            <input id="wo-due" type="date">
+            <div class="form-grid-two">
+              <div>
+                <label for="wo-priority">Priority</label>
+                <select id="wo-priority" required>
+                  <option>LOW</option>
+                  <option>MEDIUM</option>
+                  <option>HIGH</option>
+                  <option>CRITICAL</option>
+                </select>
+              </div>
+              <div>
+                <label for="wo-due">Due Date</label>
+                <input id="wo-due" type="date">
+              </div>
+            </div>
             <button type="submit">Create Work Order</button>
             <div class="msg" id="wo-msg"></div>
           </form>
 
           <form id="form-incident" data-roles="Manager,Safety">
-            <h3>Report Incident</h3>
+            <div class="form-head">
+              <div class="form-icon">S</div>
+              <div>
+                <div class="form-title">Report Incident</div>
+                <div class="form-desc">Capture safety events and classify severity immediately.</div>
+              </div>
+            </div>
             <label for="incident-site">Site</label>
             <select id="incident-site" required></select>
-            <label for="incident-severity">Severity</label>
-            <select id="incident-severity" required>
-              <option>LOW</option>
-              <option>MEDIUM</option>
-              <option>HIGH</option>
-              <option>CRITICAL</option>
-            </select>
+            <div class="form-grid-two">
+              <div>
+                <label for="incident-severity">Severity</label>
+                <select id="incident-severity" required>
+                  <option>LOW</option>
+                  <option>MEDIUM</option>
+                  <option>HIGH</option>
+                  <option>CRITICAL</option>
+                </select>
+              </div>
+              <div>
+                <label for="incident-lti">Lost Time Injury</label>
+                <select id="incident-lti">
+                  <option value="false">No</option>
+                  <option value="true">Yes</option>
+                </select>
+              </div>
+            </div>
             <label for="incident-description">Description</label>
             <textarea id="incident-description" rows="2" required></textarea>
-            <label for="incident-lti">Lost Time Injury</label>
-            <select id="incident-lti">
-              <option value="false">No</option>
-              <option value="true">Yes</option>
-            </select>
             <button type="submit">Submit Incident</button>
             <div class="msg" id="incident-msg"></div>
           </form>
 
           <form id="form-stock" data-roles="Manager,Inventory">
-            <h3>Record Stock Movement</h3>
+            <div class="form-head">
+              <div class="form-icon">I</div>
+              <div>
+                <div class="form-title">Record Stock Movement</div>
+                <div class="form-desc">Track inbound and outbound inventory transactions.</div>
+              </div>
+            </div>
             <label for="stock-item">Inventory Item</label>
             <select id="stock-item" required></select>
-            <label for="stock-type">Movement Type</label>
-            <select id="stock-type" required>
-              <option>IN</option>
-              <option>OUT</option>
-            </select>
-            <label for="stock-qty">Quantity</label>
-            <input id="stock-qty" type="number" min="0.01" step="0.01" required>
+            <div class="form-grid-two">
+              <div>
+                <label for="stock-type">Movement Type</label>
+                <select id="stock-type" required>
+                  <option>IN</option>
+                  <option>OUT</option>
+                </select>
+              </div>
+              <div>
+                <label for="stock-qty">Quantity</label>
+                <input id="stock-qty" type="number" min="0.01" step="0.01" required>
+              </div>
+            </div>
             <label for="stock-ref">Reference</label>
             <input id="stock-ref" placeholder="WO-1002 / GRN-10">
             <button type="submit">Record Movement</button>
@@ -586,8 +1069,12 @@
     </div>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     let refreshTimerId = null;
+    let productionChart = null;
+    let inventoryChart = null;
+    let incidentsChart = null;
 
     async function api(path, options = {}) {
       const response = await fetch(path, {
@@ -621,6 +1108,16 @@
       document.getElementById("auth-card").classList.toggle("hidden", visible);
       document.getElementById("dashboard").classList.toggle("hidden", !visible);
       document.getElementById("user-label").textContent = user ? `${user.full_name} (${user.role})` : "Not signed in";
+
+      const authOnly = document.querySelectorAll(".auth-only");
+      for (const link of authOnly) {
+        link.classList.toggle("hidden", !visible);
+      }
+
+      const loginOnly = document.querySelectorAll(".login-only");
+      for (const link of loginOnly) {
+        link.classList.toggle("hidden", visible);
+      }
     }
 
     function applyRoleVisibility(role) {
@@ -646,7 +1143,7 @@
       }
     }
 
-    function renderRows(tbodyId, rows, cellRenderer) {
+    function renderRows(tbodyId, rows, cellRenderer, emptyColspan = 5) {
       const body = document.getElementById(tbodyId);
       body.innerHTML = "";
       for (const row of rows) {
@@ -656,17 +1153,135 @@
       }
       if (rows.length === 0) {
         const tr = document.createElement("tr");
-        tr.innerHTML = "<td colspan='5'>No records found.</td>";
+        tr.innerHTML = `<td colspan='${emptyColspan}'>No records found.</td>`;
         body.appendChild(tr);
       }
     }
 
+    function updateCharts(productionLogs, inventoryItems, incidents) {
+      if (typeof Chart === "undefined") {
+        return;
+      }
+
+      const recentLogs = [...productionLogs].slice(0, 8).reverse();
+      const prodLabels = recentLogs.map((x) => x.shift_date);
+      const prodValues = recentLogs.map((x) => Number(x.tonnes_processed));
+
+      const inventoryBySite = {};
+      for (const item of inventoryItems) {
+        const site = item.site_name || "Unknown";
+        inventoryBySite[site] = (inventoryBySite[site] || 0) + Number(item.current_stock);
+      }
+
+      const invLabels = Object.keys(inventoryBySite);
+      const invValues = Object.values(inventoryBySite);
+
+      const incidentSevCounts = { LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0 };
+      for (const incident of incidents) {
+        const sev = String(incident.severity || "").toUpperCase();
+        if (sev in incidentSevCounts) {
+          incidentSevCounts[sev] += 1;
+        }
+      }
+
+      if (productionChart) {
+        productionChart.destroy();
+      }
+      if (inventoryChart) {
+        inventoryChart.destroy();
+      }
+      if (incidentsChart) {
+        incidentsChart.destroy();
+      }
+
+      const prodCtx = document.getElementById("production-chart").getContext("2d");
+      productionChart = new Chart(prodCtx, {
+        type: "line",
+        data: {
+          labels: prodLabels,
+          datasets: [{
+            label: "Tonnes",
+            data: prodValues,
+            borderColor: "#c7832b",
+            backgroundColor: "rgba(199, 131, 43, 0.22)",
+            tension: 0.25,
+            fill: true,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: "#555247" } },
+            y: { ticks: { color: "#555247" } },
+          },
+        },
+      });
+
+      const invCtx = document.getElementById("inventory-chart").getContext("2d");
+      inventoryChart = new Chart(invCtx, {
+        type: "bar",
+        data: {
+          labels: invLabels,
+          datasets: [{
+            label: "Current Stock",
+            data: invValues,
+            backgroundColor: ["#c7832b", "#8a4f13", "#2f6b6e", "#e0a04d"],
+            borderRadius: 8,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: "#555247" } },
+            y: { ticks: { color: "#555247" } },
+          },
+        },
+      });
+
+      const incCtx = document.getElementById("incidents-chart").getContext("2d");
+      incidentsChart = new Chart(incCtx, {
+        type: "doughnut",
+        data: {
+          labels: ["Low", "Medium", "High", "Critical"],
+          datasets: [{
+            data: [
+              incidentSevCounts.LOW,
+              incidentSevCounts.MEDIUM,
+              incidentSevCounts.HIGH,
+              incidentSevCounts.CRITICAL,
+            ],
+            backgroundColor: ["#2f8f5b", "#a87a19", "#cc5d1b", "#a12f1e"],
+            borderWidth: 0,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: {
+                color: "#555247",
+                boxWidth: 12,
+              },
+            },
+          },
+        },
+      });
+    }
+
     async function refreshData() {
-      const [summary, workOrders, incidents, lowStock] = await Promise.all([
+      const [summary, workOrders, incidents, lowStock, inventoryItems, productionLogs] = await Promise.all([
         api("/dashboard/summary"),
         api("/work-orders/open"),
         api("/incidents/open"),
         api("/inventory/low-stock"),
+        api("/inventory-items"),
+        api("/production-logs"),
       ]);
 
       document.getElementById("kpi-work-orders").textContent = summary.open_work_orders;
@@ -698,6 +1313,21 @@
         <td>${s.current_stock}</td>
         <td>${s.reorder_level}</td>
       `);
+
+      renderRows("inventory-body", inventoryItems, (i) => {
+        const isLow = Number(i.current_stock) <= Number(i.reorder_level);
+        return `
+          <td>${i.sku}</td>
+          <td>${i.name}</td>
+          <td>${i.site_name}</td>
+          <td>${i.unit}</td>
+          <td>${i.current_stock}</td>
+          <td>${i.reorder_level}</td>
+          <td><span class="badge ${isLow ? "stock-low" : "stock-ok"}">${isLow ? "LOW" : "OK"}</span></td>
+        `;
+      }, 7);
+
+      updateCharts(productionLogs, inventoryItems, incidents);
     }
 
     async function loadReferenceData() {
