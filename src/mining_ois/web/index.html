@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mining Operations Command Center</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+    :root {
+      --paper: #fffdf8;
+      --paper-2: #f5f0e6;
+      --ink: #1f1f1b;
+      --ink-soft: #555247;
+      --brand: #0f7668;
+      --brand-2: #c8742d;
+      --line: #d8cfbf;
+      --danger: #a3311f;
+      --ok: #17634a;
+      --shadow: 0 20px 42px rgba(33, 27, 16, 0.12);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Chakra Petch", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(15, 118, 104, 0.19) 0%, transparent 28%),
+        radial-gradient(circle at 100% 0%, rgba(200, 116, 45, 0.22) 0%, transparent 32%),
+        linear-gradient(180deg, #f9f5eb 0%, #efe8db 100%);
+      min-height: 100vh;
+    }
+
+    .shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      gap: 20px;
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero {
+      background:
+        linear-gradient(130deg, #0f5f55 0%, #0f6f66 48%, #2c7f74 100%);
+      color: #f7fff8;
+      border-radius: var(--radius-lg);
+      padding: 28px 28px 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .auth-card {
+      background: linear-gradient(145deg, #fffefb 0%, #f6f0e4 100%);
+      border: 1px solid #dccfb7;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .auth-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, 370px) 1fr;
+      gap: 18px;
+    }
+
+    .auth-card h2 {
+      font-size: 1.2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .auth-card p,
+    .auth-card li {
+      color: var(--ink-soft);
+      line-height: 1.5;
+      font-size: 0.94rem;
+    }
+
+    .auth-card ul {
+      padding-left: 18px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .auth-intro {
+      display: grid;
+      gap: 10px;
+      background: rgba(15, 118, 104, 0.07);
+      border: 1px solid rgba(15, 118, 104, 0.2);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .auth-kicker {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      color: #0f6c60;
+      letter-spacing: 0.08em;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .user-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-size: 0.92rem;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+    }
+
+    .logout-btn {
+      width: auto;
+      min-width: 110px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      right: -80px;
+      top: -110px;
+      background: linear-gradient(130deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.01));
+      clip-path: polygon(50% 0%, 100% 25%, 85% 100%, 0% 85%, 0% 15%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      margin-bottom: 8px;
+      letter-spacing: 0.03em;
+      z-index: 1;
+      position: relative;
+      text-transform: uppercase;
+    }
+
+    .hero p {
+      font-size: 0.98rem;
+      max-width: 780px;
+      line-height: 1.5;
+      color: #e8fff1;
+      z-index: 1;
+      position: relative;
+    }
+
+    .meta {
+      margin-top: 12px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.84rem;
+      opacity: 0.9;
+      z-index: 1;
+      position: relative;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: linear-gradient(155deg, #fffefb 0%, #f5ede0 100%);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #0f7668, #c8742d);
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 34px rgba(33, 27, 16, 0.15);
+    }
+
+    .card-label {
+      color: var(--ink-soft);
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+    }
+
+    .card-value {
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 16px;
+    }
+
+    .panel {
+      background: linear-gradient(170deg, #fffefb 0%, #f5ede0 100%);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel h2 {
+      font-size: 1.02rem;
+      margin-bottom: 12px;
+      color: #2f3d32;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: 260px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 500px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 9px 8px;
+      border-bottom: 1px solid #e8eee9;
+      font-size: 0.9rem;
+    }
+
+    th {
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+      background: #ece4d5;
+      position: sticky;
+      top: 0;
+    }
+
+    .badge {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: white;
+      text-transform: uppercase;
+    }
+
+    .sev-low, .pri-low { background: #2f8f5b; }
+    .sev-medium, .pri-medium { background: #a87a19; }
+    .sev-high, .pri-high { background: #cc5d1b; }
+    .sev-critical, .pri-critical { background: #a12f1e; }
+
+    .forms {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    form {
+      display: grid;
+      gap: 8px;
+      background: #fffdf8;
+      border: 1px solid #dcd1be;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      align-content: start;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+
+    form h3 {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.88rem;
+      color: #0d5e54;
+    }
+
+    label {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      border: 1px solid #c8bda9;
+      border-radius: 8px;
+      padding: 10px;
+      font-family: inherit;
+      font-size: 0.93rem;
+      background: white;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid rgba(15, 118, 104, 0.25);
+      border-color: #0f7668;
+    }
+
+    button {
+      border: 0;
+      color: white;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--brand), var(--brand-2));
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    button:hover {
+      filter: brightness(1.05);
+    }
+
+    .msg {
+      font-size: 0.82rem;
+      min-height: 1.1rem;
+      color: var(--ink-soft);
+    }
+
+    .error { color: var(--danger); }
+    .ok { color: var(--ok); }
+
+    .footer-note {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.8rem;
+      color: #6d675a;
+      text-align: right;
+    }
+
+    @media (max-width: 980px) {
+      .auth-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        min-width: 100%;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .user-pill {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="auth-card" id="auth-card">
+      <div class="auth-grid">
+        <form id="login-form">
+          <div class="auth-kicker">First Quantum Minerals</div>
+          <h2>Operations Access Portal</h2>
+          <p>Authenticate to open the live operations board and role-restricted workflows.</p>
+          <label for="login-username">Username</label>
+          <input id="login-username" autocomplete="username" required>
+          <label for="login-password">Password</label>
+          <input id="login-password" type="password" autocomplete="current-password" required>
+          <button type="submit">Sign in</button>
+          <div class="msg" id="login-msg"></div>
+        </form>
+
+        <div class="auth-intro">
+          <h2>Demo Accounts</h2>
+          <ul>
+            <li><strong>manager</strong> / manager123</li>
+            <li><strong>safety</strong> / safety123</li>
+            <li><strong>inventory</strong> / inventory123</li>
+          </ul>
+          <p>Submitted data goes to the local FastAPI service at this address and is stored in <strong>operations.db</strong> in the project root.</p>
+        </div>
+      </div>
+    </section>
+
+    <div id="dashboard" class="hidden">
+      <section class="hero">
+        <div class="topbar">
+          <div>
+            <h1>Mining Operations Command Center</h1>
+            <p>Live operations view for production, maintenance, safety, and inventory at First Quantum Minerals prototype sites.</p>
+          </div>
+          <div class="user-pill">
+            <span id="user-label">Not signed in</span>
+            <button class="logout-btn" id="logout-btn" type="button">Logout</button>
+          </div>
+        </div>
+        <div class="meta" id="meta">Loading latest shift snapshot...</div>
+      </section>
+
+      <section class="cards">
+        <article class="card">
+          <div class="card-label">Open Work Orders</div>
+          <div class="card-value" id="kpi-work-orders">0</div>
+        </article>
+        <article class="card">
+          <div class="card-label">Open Incidents</div>
+          <div class="card-value" id="kpi-incidents">0</div>
+        </article>
+        <article class="card">
+          <div class="card-label">Low Stock Items</div>
+          <div class="card-value" id="kpi-low-stock">0</div>
+        </article>
+        <article class="card">
+          <div class="card-label">Total Tonnes Processed</div>
+          <div class="card-value" id="kpi-tonnes">0</div>
+        </article>
+      </section>
+
+      <section class="grid">
+        <article class="panel">
+          <h2>Open Maintenance Work Orders</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Equipment</th><th>Title</th><th>Priority</th><th>Status</th></tr>
+              </thead>
+              <tbody id="work-order-body"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2>Safety Incidents (Open/Investigating)</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Site</th><th>Severity</th><th>Status</th><th>Description</th></tr>
+              </thead>
+              <tbody id="incident-body"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <h2>Low Stock Watchlist</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>SKU</th><th>Item</th><th>Site</th><th>Current</th><th>Reorder</th></tr>
+            </thead>
+            <tbody id="stock-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Operational Data Entry</h2>
+        <div class="forms">
+          <form id="form-production" data-roles="Manager">
+            <h3>Record Production</h3>
+            <label for="production-site">Site</label>
+            <select id="production-site" required></select>
+            <label for="production-date">Shift Date</label>
+            <input id="production-date" type="date" required>
+            <label for="production-tonnes">Tonnes Processed</label>
+            <input id="production-tonnes" type="number" step="0.01" min="0" required>
+            <label for="production-downtime">Downtime (minutes)</label>
+            <input id="production-downtime" type="number" min="0" required>
+            <label for="production-notes">Notes</label>
+            <textarea id="production-notes" rows="2"></textarea>
+            <button type="submit">Save Production Log</button>
+            <div class="msg" id="production-msg"></div>
+          </form>
+
+          <form id="form-work-order" data-roles="Manager">
+            <h3>Create Work Order</h3>
+            <label for="wo-equipment">Equipment</label>
+            <select id="wo-equipment" required></select>
+            <label for="wo-title">Title</label>
+            <input id="wo-title" required>
+            <label for="wo-priority">Priority</label>
+            <select id="wo-priority" required>
+              <option>LOW</option>
+              <option>MEDIUM</option>
+              <option>HIGH</option>
+              <option>CRITICAL</option>
+            </select>
+            <label for="wo-due">Due Date</label>
+            <input id="wo-due" type="date">
+            <button type="submit">Create Work Order</button>
+            <div class="msg" id="wo-msg"></div>
+          </form>
+
+          <form id="form-incident" data-roles="Manager,Safety">
+            <h3>Report Incident</h3>
+            <label for="incident-site">Site</label>
+            <select id="incident-site" required></select>
+            <label for="incident-severity">Severity</label>
+            <select id="incident-severity" required>
+              <option>LOW</option>
+              <option>MEDIUM</option>
+              <option>HIGH</option>
+              <option>CRITICAL</option>
+            </select>
+            <label for="incident-description">Description</label>
+            <textarea id="incident-description" rows="2" required></textarea>
+            <label for="incident-lti">Lost Time Injury</label>
+            <select id="incident-lti">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+            <button type="submit">Submit Incident</button>
+            <div class="msg" id="incident-msg"></div>
+          </form>
+
+          <form id="form-stock" data-roles="Manager,Inventory">
+            <h3>Record Stock Movement</h3>
+            <label for="stock-item">Inventory Item</label>
+            <select id="stock-item" required></select>
+            <label for="stock-type">Movement Type</label>
+            <select id="stock-type" required>
+              <option>IN</option>
+              <option>OUT</option>
+            </select>
+            <label for="stock-qty">Quantity</label>
+            <input id="stock-qty" type="number" min="0.01" step="0.01" required>
+            <label for="stock-ref">Reference</label>
+            <input id="stock-ref" placeholder="WO-1002 / GRN-10">
+            <button type="submit">Record Movement</button>
+            <div class="msg" id="stock-msg"></div>
+          </form>
+        </div>
+      </section>
+
+      <div class="footer-note">Prototype OIS UI | Auto-refresh every 30 seconds</div>
+    </div>
+  </main>
+
+  <script>
+    let refreshTimerId = null;
+
+    async function api(path, options = {}) {
+      const response = await fetch(path, {
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        ...options,
+      });
+
+      if (!response.ok) {
+        let msg = "Request failed";
+        try {
+          const data = await response.json();
+          msg = data.detail || msg;
+        } catch (_) {
+          msg = response.statusText || msg;
+        }
+        throw new Error(msg);
+      }
+
+      const text = await response.text();
+      return text ? JSON.parse(text) : {};
+    }
+
+    function setMsg(id, text, isError = false) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className = "msg " + (isError ? "error" : "ok");
+    }
+
+    function setDashboardVisible(visible, user = null) {
+      document.getElementById("auth-card").classList.toggle("hidden", visible);
+      document.getElementById("dashboard").classList.toggle("hidden", !visible);
+      document.getElementById("user-label").textContent = user ? `${user.full_name} (${user.role})` : "Not signed in";
+    }
+
+    function applyRoleVisibility(role) {
+      const roleForms = document.querySelectorAll("form[data-roles]");
+      for (const form of roleForms) {
+        const allowed = (form.dataset.roles || "").split(",").map((x) => x.trim());
+        form.classList.toggle("hidden", !allowed.includes(role));
+      }
+    }
+
+    function badgeClass(prefix, value) {
+      return `${prefix.toLowerCase()}-${String(value).toLowerCase()}`;
+    }
+
+    function fillSelect(id, items, labelFn) {
+      const select = document.getElementById(id);
+      select.innerHTML = "";
+      for (const item of items) {
+        const opt = document.createElement("option");
+        opt.value = item.id;
+        opt.textContent = labelFn(item);
+        select.appendChild(opt);
+      }
+    }
+
+    function renderRows(tbodyId, rows, cellRenderer) {
+      const body = document.getElementById(tbodyId);
+      body.innerHTML = "";
+      for (const row of rows) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = cellRenderer(row);
+        body.appendChild(tr);
+      }
+      if (rows.length === 0) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = "<td colspan='5'>No records found.</td>";
+        body.appendChild(tr);
+      }
+    }
+
+    async function refreshData() {
+      const [summary, workOrders, incidents, lowStock] = await Promise.all([
+        api("/dashboard/summary"),
+        api("/work-orders/open"),
+        api("/incidents/open"),
+        api("/inventory/low-stock"),
+      ]);
+
+      document.getElementById("kpi-work-orders").textContent = summary.open_work_orders;
+      document.getElementById("kpi-incidents").textContent = summary.open_incidents;
+      document.getElementById("kpi-low-stock").textContent = summary.low_stock_items;
+      document.getElementById("kpi-tonnes").textContent = Number(summary.total_tonnes_processed).toLocaleString();
+      document.getElementById("meta").textContent = "Snapshot generated: " + new Date(summary.generated_at).toLocaleString();
+
+      renderRows("work-order-body", workOrders, (w) => `
+        <td>${w.id}</td>
+        <td>${w.equipment_code} (${w.equipment_type})</td>
+        <td>${w.title}</td>
+        <td><span class="badge ${badgeClass("pri", w.priority)}">${w.priority}</span></td>
+        <td>${w.status}</td>
+      `);
+
+      renderRows("incident-body", incidents, (i) => `
+        <td>${i.id}</td>
+        <td>${i.site_name}</td>
+        <td><span class="badge ${badgeClass("sev", i.severity)}">${i.severity}</span></td>
+        <td>${i.status}</td>
+        <td>${i.description}</td>
+      `);
+
+      renderRows("stock-body", lowStock, (s) => `
+        <td>${s.sku}</td>
+        <td>${s.name}</td>
+        <td>${s.site_name}</td>
+        <td>${s.current_stock}</td>
+        <td>${s.reorder_level}</td>
+      `);
+    }
+
+    async function loadReferenceData() {
+      const [sites, equipment, items] = await Promise.all([
+        api("/sites"),
+        api("/equipment"),
+        api("/inventory-items"),
+      ]);
+
+      fillSelect("production-site", sites, (s) => `${s.name} (${s.location})`);
+      fillSelect("incident-site", sites, (s) => `${s.name} (${s.location})`);
+      fillSelect("wo-equipment", equipment, (e) => `${e.code} | ${e.type} | ${e.site_name}`);
+      fillSelect("stock-item", items, (i) => `${i.sku} | ${i.name} | ${i.site_name}`);
+    }
+
+    async function loadSession() {
+      try {
+        const user = await api("/auth/me");
+        setDashboardVisible(true, user);
+        return user;
+      } catch (_) {
+        setDashboardVisible(false);
+        return null;
+      }
+    }
+
+    async function login(username, password) {
+      return api("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+      });
+    }
+
+    async function logout() {
+      await api("/auth/logout", { method: "POST" });
+      if (refreshTimerId) {
+        clearInterval(refreshTimerId);
+        refreshTimerId = null;
+      }
+      setDashboardVisible(false);
+      document.getElementById("meta").textContent = "Signed out";
+      window.location.href = "/";
+    }
+
+    async function submitJson(path, payload, msgId, successMsg) {
+      try {
+        await api(path, { method: "POST", body: JSON.stringify(payload) });
+        setMsg(msgId, successMsg, false);
+        await refreshData();
+      } catch (err) {
+        setMsg(msgId, err.message, true);
+      }
+    }
+
+    function setupForms() {
+      document.getElementById("form-production").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await submitJson(
+          "/production-logs",
+          {
+            site_id: Number(document.getElementById("production-site").value),
+            shift_date: document.getElementById("production-date").value,
+            tonnes_processed: Number(document.getElementById("production-tonnes").value),
+            downtime_minutes: Number(document.getElementById("production-downtime").value),
+            notes: document.getElementById("production-notes").value,
+          },
+          "production-msg",
+          "Production log saved"
+        );
+      });
+
+      document.getElementById("form-work-order").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await submitJson(
+          "/work-orders",
+          {
+            equipment_id: Number(document.getElementById("wo-equipment").value),
+            title: document.getElementById("wo-title").value,
+            priority: document.getElementById("wo-priority").value,
+            due_date: document.getElementById("wo-due").value || null,
+          },
+          "wo-msg",
+          "Work order created"
+        );
+      });
+
+      document.getElementById("form-incident").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await submitJson(
+          "/incidents",
+          {
+            site_id: Number(document.getElementById("incident-site").value),
+            severity: document.getElementById("incident-severity").value,
+            description: document.getElementById("incident-description").value,
+            lost_time_injuries: document.getElementById("incident-lti").value === "true",
+          },
+          "incident-msg",
+          "Incident submitted"
+        );
+      });
+
+      document.getElementById("form-stock").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await submitJson(
+          "/inventory-movements",
+          {
+            item_id: Number(document.getElementById("stock-item").value),
+            movement_type: document.getElementById("stock-type").value,
+            quantity: Number(document.getElementById("stock-qty").value),
+            reference: document.getElementById("stock-ref").value || null,
+          },
+          "stock-msg",
+          "Stock movement recorded"
+        );
+      });
+
+      document.getElementById("login-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        try {
+          const user = await login(
+            document.getElementById("login-username").value,
+            document.getElementById("login-password").value
+          );
+          setMsg("login-msg", `${user.user} signed in`, false);
+          setDashboardVisible(true, { full_name: user.user, role: user.role });
+          applyRoleVisibility(user.role);
+          await loadReferenceData();
+          await refreshData();
+          if (refreshTimerId) {
+            clearInterval(refreshTimerId);
+          }
+          refreshTimerId = setInterval(refreshData, 30000);
+          document.getElementById("login-password").value = "";
+        } catch (err) {
+          setMsg("login-msg", err.message, true);
+        }
+      });
+
+      document.getElementById("logout-btn").addEventListener("click", async () => {
+        try {
+          await logout();
+        } catch (err) {
+          setMsg("login-msg", err.message, true);
+        }
+      });
+    }
+
+    async function boot() {
+      try {
+        setupForms();
+        const user = await loadSession();
+        if (user) {
+          applyRoleVisibility(user.role);
+          await loadReferenceData();
+          await refreshData();
+          refreshTimerId = setInterval(refreshData, 30000);
+        }
+      } catch (err) {
+        document.getElementById("meta").textContent = "Failed to load UI data: " + err.message;
+      }
+    }
+
+    boot();
+  </script>
+</body>
+</html>

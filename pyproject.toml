@@ -1,0 +1,25 @@
+[project]
+name = "mining-operations-ois"
+version = "0.1.0"
+description = "Prototype operational information system for a mining organization"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.111.0",
+  "uvicorn>=0.30.0",
+  "pydantic>=2.7.0",
+  "itsdangerous>=2.2.0"
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8.2.0"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"

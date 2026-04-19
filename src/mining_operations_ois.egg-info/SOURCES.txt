@@ -1,0 +1,17 @@
+README.md
+pyproject.toml
+src/mining_ois/__init__.py
+src/mining_ois/main.py
+src/mining_ois/api/__init__.py
+src/mining_ois/api/routes.py
+src/mining_ois/core/__init__.py
+src/mining_ois/core/models.py
+src/mining_ois/core/services.py
+src/mining_ois/db/__init__.py
+src/mining_ois/db/database.py
+src/mining_operations_ois.egg-info/PKG-INFO
+src/mining_operations_ois.egg-info/SOURCES.txt
+src/mining_operations_ois.egg-info/dependency_links.txt
+src/mining_operations_ois.egg-info/requires.txt
+src/mining_operations_ois.egg-info/top_level.txt
+tests/test_services.py
